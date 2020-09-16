@@ -1,4 +1,6 @@
-#include <iostream>
+# include <iostream>
+# include <stdlib.h>
+# include <fstream>
 #include <string>
 #include <stdio.h>
 
@@ -17,13 +19,19 @@ int option;// La option del menu que elija el usuario
 string tempText;// Para pedir datos al usuario
 int tempNumber;
 
-int main()
-{
-    //FileData* files = new FileData[1000];
+
+int main(){
+fstream archivo("archivando.txt");
+
+
     FileData files[1000];
 
     do
     {
+      if(!archivo.is_open())
+      {
+          archivo.open ("archivando.txt",ios::out);
+      }
         // Menu principal
         cout << endl;
         cout << "Escoja una opcion:" << endl;
@@ -31,7 +39,7 @@ int main()
         cout << "2.- Mostrar los nombres de todos los archivos." << endl;
         cout << "3.- Mostrar archivos que sean de mas de un cierto tamanio." << endl;
         cout << "4.- Ver datos de un archivo." << endl;
-        cout << "5.- Salir." << endl;
+        cout << "5.- Salir y guardar datos." << endl;
 
         cin >> option;
 
@@ -56,40 +64,55 @@ int main()
             case 2: // Mostrar todos
                 for (i=0; i<numberOfFiles; i++)
 
-                    cout << "Nombre: " << files[i].name << "\n Tamanio: " << files[i].size << " Kb" << endl;
+                    cout << "Nombre: " << files[i].name << "\nTamanio: " << files[i].size << " Kb" << endl;
                 break;
 
             case 3: // Mostrar según el tamaño
-                cout << "A partir de que tamanio quieres que te muestre? ";
+                cout << "A partir de que tamanio quieres que te muestre?\n ";
                 cin >> tempNumber;
                 for (i=0; i<numberOfFiles; i++)
                     if (files[i].size >= tempNumber)
-                        cout << "Nombre: " << files[i].name
-                            << "; Tamanio: " << files[i].size
-                            << " Kb" << endl;
+                        cout << "Nombre: " << files[i].name << "\nTamanio: " << files[i].size << " Kb" << endl;
                 break;
 
             case 4: // Ver todos los datos (pocos) de un archivo
-                cout << "De que archivo quieres ver todos los datos?";
+                cout << "De que archivo quieres ver todos los datos?\n";
                 cin >> tempText;
                 for (i=0; i<numberOfFiles; i++)
                     if (files[i].name == tempText)
-                        cout << "Nombre: " << files[i].name
-                            << "; Tamanio: " << files[i].size
-                            << " Kb" << endl;
+                        cout << "Nombre: " << files[i].name << "\nTamanio: " << files[i].size << " Kb" << endl;
                 break;
 
-            case 5: // Salir: avisamos de que salimos
-                cout << "Fin del programa" << endl;
+            case 5:
+                  for (i=0; i<numberOfFiles; i++)
+
+
+                    archivo << "Nombre: " << files[i].name << "\nTamanio: " << files[i].size << " Kb" << endl;
+
+                    system("cls");
+
+                    cout << "Datos guardados correctamente...\n";
+
+             // Salir: avisamos de que salimos
+                cout << "\nFin del programa\n" << endl;
+
+                    system ("pause");
+                    system("cls");
+                    archivo.close();
                 break;
 
             default: // Otra opción: no válida
                 cout << "¡Opcion desconocida!" << endl;
                 break;
         }
-    } while (option != 5);// Si la opción es 5, terminamos
 
-    return 0;
+    }
+     while (option != 5);// Si la opción es 5, terminamos
+
+
+return 0;
+
 }
+
 \para solucionar el error inicie leyendo la informacion asignada en el classrom. luego decidi buscar ejemplos en internet sobre funciones que requieran del uso de arrays y estructuras con manejo de strings. Luego encontre un ejemplo que utiliza esta accion dentro de la funcion. 
-link del video: https://www.youtube.com/watch?v=DUK1FXBuioM&t=680s
+link del video: https://www.youtube.com/watch?v=v9ZZUa3eOEM
